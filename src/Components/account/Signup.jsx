@@ -6,11 +6,18 @@ import Logo from '../Logo/Logo';
 import LoginLeftBox from './LoginLeftBox';
 
 function Signup() {
-    let [show, setShow] = useState(false);
+    const [show, setShow] = useState(false);
+    const [resetFormVisible, setResetFormVisible] = useState(false);
+    const [email, setEmail] = useState('');
 
-    let handleForm = (e) => {
+    const handleForm = (e) => {
         e.preventDefault();
         // Your form submission logic here
+    };
+
+    const handleResetFormSubmit = (e) => {
+        e.preventDefault();
+        // Your password reset submission logic here
     };
 
     return (
@@ -22,41 +29,62 @@ function Signup() {
                     <Logo />
                     <Text>Make your shopping easy</Text>
                     <Box width="100%" >
-                        <form onSubmit={handleForm} >
-                            <Stack spacing={5}>
-                                <Input placeholder='Username' variant="flushed" borderBottom="3px solid skyblue" />
-                                <Input placeholder='Fullname' variant="flushed" borderBottom="3px solid skyblue" />
-                                <Input placeholder='Email' variant="flushed" borderBottom="3px solid skyblue" />
+                        {!resetFormVisible ? (
+                            <form onSubmit={handleForm}>
+                                <Stack spacing={5}>
+                                    <Input placeholder='Username' variant="flushed" borderBottom="3px solid skyblue" />
+                                    <Input placeholder='Fullname' variant="flushed" borderBottom="3px solid skyblue" />
+                                    <Input placeholder='Email' variant="flushed" borderBottom="3px solid skyblue" />
 
 
-                                <InputGroup>
-                                    <Input placeholder='Password' type={show ? 'text' : 'password'} variant="flushed" borderBottom="3px solid skyblue" />
-                                    <InputRightElement width='4.5rem'>
-                                        <Button h='1.75rem' size='sm' variant='ghost'
-                                            onClick={() =>
-                                                setShow((show) => !show)
-                                            }>
-                                            {show ? <ViewIcon color="skyblue" /> : <ViewOffIcon color="skyblue" />}
-                                        </Button>
-                                    </InputRightElement>
-                                </InputGroup>
-                                <InputGroup>
-                                    <Input placeholder='Confirm password' type={show ? 'text' : 'password'} variant="flushed" borderBottom="3px solid skyblue" />
-                                    <InputRightElement width='4.5rem'>
-                                        <Button h='1.75rem' size='sm' variant='ghost'
-                                            onClick={() =>
-                                                setShow((show) => !show)
-                                            }>
-                                            {show ? <ViewIcon color="skyblue" /> : <ViewOffIcon color="skyblue" />}
-                                        </Button>
-                                    </InputRightElement>
-                                </InputGroup>
-                                <Button type="submit" cursor="pointer" bgColor="rgb(44, 203, 203)" color="white">Register</Button>
-                                <Text>
-                                    Already have an account? <Link to="/login" style={{ fontWeight: 600, color: "skyblue" }}>Login</Link>
-                                </Text>
-                            </Stack>
-                        </form>
+                                    <InputGroup>
+                                        <Input placeholder='Password' type={show ? 'text' : 'password'} variant="flushed" borderBottom="3px solid skyblue" />
+                                        <InputRightElement width='4.5rem'>
+                                            <Button h='1.75rem' size='sm' variant='ghost'
+                                                onClick={() => setShow(!show)}>
+                                                {show ? <ViewIcon color="skyblue" /> : <ViewOffIcon color="skyblue" />}
+                                            </Button>
+                                        </InputRightElement>
+                                    </InputGroup>
+                                    <InputGroup>
+                                        <Input placeholder='Confirm password' type={show ? 'text' : 'password'} variant="flushed" borderBottom="3px solid skyblue" />
+                                        <InputRightElement width='4.5rem'>
+                                            <Button h='1.75rem' size='sm' variant='ghost'
+                                                onClick={() => setShow(!show)}>
+                                                {show ? <ViewIcon color="skyblue" /> : <ViewOffIcon color="skyblue" />}
+                                            </Button>
+                                        </InputRightElement>
+                                    </InputGroup>
+                                    <Button type="submit" cursor="pointer" bgColor="rgb(44, 203, 203)" color="white">Register</Button>
+                                </Stack>
+                            </form>
+                        ) : (
+                            <form onSubmit={handleResetFormSubmit}>
+                                <Stack spacing={5}>
+                                    <Input
+                                        placeholder='Email'
+                                        variant="flushed"
+                                        borderBottom="3px solid skyblue"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                    />
+                                    <Button type="submit" cursor="pointer" bgColor="rgb(44, 203, 203)" color="white">Reset Password</Button>
+                                </Stack>
+                            </form>
+                        )}
+                        <Text mt={4}>
+                            Already have an account? <Link to="/login" style={{ fontWeight: 600, color: "skyblue" }}>Login here</Link>
+                        </Text>
+                        <Text mt={2}>
+                            Forgot your password?{' '}
+                            <Link
+                                to="#"
+                                style={{ fontWeight: 600, color: "skyblue" }}
+                                onClick={() => setResetFormVisible(!resetFormVisible)}
+                            >
+                                Reset here
+                            </Link>
+                        </Text>
                     </Box>
                 </Box>
             </Box>
